@@ -1,8 +1,7 @@
-package org.example.project.category;
+package org.example.project.controller;
 
 import jakarta.validation.Valid;
 import org.example.project.config.AppConstants;
-import org.example.project.model.Category;
 import org.example.project.payload.CategoryDTO;
 import org.example.project.payload.CategoryResponse;
 import org.example.project.service.CategoryService;
@@ -11,10 +10,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api")

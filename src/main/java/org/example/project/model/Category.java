@@ -10,6 +10,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity(name = "Categories")
 @Data
 @NoArgsConstructor
@@ -23,6 +26,10 @@ public class Category {
     @NotBlank
     @Size(min=3, message = "Category name should bigger than 3 characters")
     private String categoryName;
+
+
+    //private List<Product> products = new ArrayList<>();
+
 
 //    public Category() {
 //    }
