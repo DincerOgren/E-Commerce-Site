@@ -2,7 +2,6 @@ package org.example.project.controller;
 
 import jakarta.validation.Valid;
 import org.example.project.config.AppConstants;
-import org.example.project.model.Product;
 import org.example.project.payload.ProductDTO;
 import org.example.project.payload.ProductResponse;
 import org.example.project.service.ProductService;
@@ -28,7 +27,7 @@ public class ProductController {
                                                  @PathVariable long categoryId) {
         ProductDTO createdProductDTO = productService.addProduct(categoryId, productDTO);
 
-//        return ResponseEntity.status(HttpStatus.OK).body("CCreated succesfully");
+//        return ResponseEntity.status(HttpStatus.OK).body("CCreated successfully");
 //        return  ResponseEntity.ok("Created Successfully");
 
         return new ResponseEntity<>(createdProductDTO, HttpStatus.CREATED);
@@ -80,7 +79,7 @@ public class ProductController {
 
         ProductDTO updatedProduct = productService.updateProduct(productId, productDTO);
 
-//        return ResponseEntity.status(HttpStatus.OK).body("CCreated succesfully");
+//        return ResponseEntity.status(HttpStatus.OK).body("CCreated successfully");
 //        return  ResponseEntity.ok("Created Successfully");
 
         return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
