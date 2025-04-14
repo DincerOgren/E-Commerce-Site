@@ -1,10 +1,8 @@
 package org.example.project.service;
 
-import org.example.project.model.Category;
 import org.example.project.payload.CategoryDTO;
 import org.example.project.payload.CategoryResponse;
 
-import java.util.List;
 
 public interface CategoryService {
 
