@@ -13,3 +13,11 @@ public class AppConfig {
     }
 
 }
+
+//spring.datasource.url = jdbc:postgresql://ecommerce.c7qeugymk14b.eu-north-1.rds.amazonaws.com:5432/myDatabase
+//
+//spring.datasource.username=postgres
+//spring.datasource.password=dino123.
+//
+//        spring.jpa.hibernate.ddl-auto=update
+//spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
