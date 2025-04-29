@@ -18,6 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -41,6 +42,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Value("${project.image}")
     private String path;
+
+    @Value("${image.base.url}")
+    private String imageBaseUrl;
     @Autowired
     private CartRepository cartRepository;
     @Autowired
@@ -121,7 +125,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductResponse getAllProducts(Integer pageNumber, Integer pageSize, String sortBy, String sortOrder) {
+    public ProductResponse getAllProducts(Integer pageNumber, Integer pageSize, String sortBy, String sortOrder,String keyword,String category) {
 
         Sort sortByAndOrder = sortOrder.equalsIgnoreCase("asc")
                 ? Sort.by(sortBy).ascending()
@@ -130,7 +134,16 @@ public class ProductServiceImpl implements ProductService {
 
         Pageable pageDetails = PageRequest.of(pageNumber, pageSize, sortByAndOrder);
 
-        Page<Product> productPage = productRepository.findAll(pageDetails);
+        Specification<Product> spec =  Specification.where(null);
+        if (keyword != null && !keyword.isEmpty()){
+            spec = spec.and((root,query,criteriaBuilder)->
+                    criteriaBuilder.like(criteriaBuilder.lower(root.get("productName")), "%"+keyword.toLowerCase()+"%"));
+        }
+        if (category != null && !category.isEmpty()&& !category.equalsIgnoreCase("all")){
+            spec = spec.and((root,query,criteriaBuilder)->
+                    criteriaBuilder.like(root.get("category").get("categoryName"), category));
+        }
+        Page<Product> productPage = productRepository.findAll(spec,pageDetails);
 
         List<Product> products = productPage.getContent();
 
@@ -141,7 +154,11 @@ public class ProductServiceImpl implements ProductService {
 
 
         List<ProductDTO> productDTOs = products.stream()
-                .map(product -> modelMapper.map(product, ProductDTO.class))
+                .map(product ->{
+                    ProductDTO pDTO=modelMapper.map(product, ProductDTO.class);
+                    pDTO.setImage(constructImageUrl(product.getImage()));
+                    return pDTO;
+                })
                 .toList();
 
         ProductResponse productResponse = new ProductResponse();
@@ -156,6 +173,10 @@ public class ProductServiceImpl implements ProductService {
 
         return productResponse;
 
+    }
+
+    private String constructImageUrl(String imageName) {
+    return imageBaseUrl.endsWith("/") ? imageBaseUrl + imageName : imageBaseUrl + "/" + imageName;
     }
 
     @Override
