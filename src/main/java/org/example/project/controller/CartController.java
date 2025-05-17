@@ -2,10 +2,12 @@ package org.example.project.controller;
 
 import org.example.project.model.Cart;
 import org.example.project.payload.CartDTO;
+import org.example.project.payload.CartItemDTO;
 import org.example.project.repositories.CartRepository;
 import org.example.project.service.CartService;
 import org.example.project.util.AuthUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +19,15 @@ public class CartController {
 
     @Autowired
     private CartService cartService;
+
+
+    @PostMapping("/cart/create")
+    public ResponseEntity<String> createOrUpdateCart(@RequestBody List<CartItemDTO> cartItems ) {
+
+        String response = cartService.createOrUpdateCartWithItems(cartItems);
+
+        return new ResponseEntity<>(response,HttpStatus.CREATED);
+    }
 
 
     @PostMapping("/carts/products/{productId}/quantity/{quantity}")
